@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación - GHUB Launcher</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .verify-container {
+            max-width: 500px;
+            margin: 8rem auto 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .verify-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .verify-header i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .verify-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .verify-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .verify-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .verify-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .verify-button:hover {
+            opacity: 0.9;
+        }
+
+        .error-message {
+            display: none;
+            color: #dc3545;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .error-message.active {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/logo2.png" alt="GHUB Launcher Logo">
+            <h3>GHUB Launcher</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="../index.html"><i class="fas fa-home"></i> Inicio</a>
+            <a href="../index.html#caracteristicas"><i class="fas fa-star"></i> Características</a>
+            <a href="../index.html#descarga"><i class="fas fa-download"></i> Descarga</a>
+            <a href="games.html"><i class="fas fa-gamepad"></i> Juegos</a>
+            <a href="verify.html" class="active"><i class="fas fa-shield-alt"></i> Administración</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../assets/logo2.png" alt="GHUB Launcher Logo" class="logo-img">
+            </div>
+        </nav>
+
+        <div class="verify-container">
+            <div class="verify-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Acceso a Administración</h2>
+                <p>Introduce el código de acceso para continuar</p>
+            </div>
+            <form class="verify-form" id="verifyForm" onsubmit="verifyAccess(event)">
+                <input type="password" 
+                       class="verify-input" 
+                       id="accessCode" 
+                       placeholder="Código de acceso"
+                       required>
+                <button type="submit" class="verify-button">
+                    Verificar Acceso
+                </button>
+            </form>
+            <div class="error-message" id="errorMessage">
+                Código de acceso incorrecto. Por favor, inténtalo de nuevo.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de verificación mejorado
+        const _0x5e4d = [
+            'split',
+            'map',
+            'join',
+            'charCodeAt',
+            'fromCharCode'
+        ];
+
+        const _secretCode = [
+            '7#kP9$mN2@vX5*hJ8',
+            'qR4%wL6^tY3&nB1$',
+            'zC8#aE5@dF7*gH2!',
+            'uI9$jK4^mL6&pQ3#',
+            'xW1%cM8@bN5*vR7^',
+            'sT2#hY9$kU4&wZ6*'
+        ].join('');
+
+        function _0xf4c3(input) {
+            return input[_0x5e4d[0]]('')
+                [_0x5e4d[1]](char => String[_0x5e4d[4]](char[_0x5e4d[3]](0) + 1))
+                [_0x5e4d[2]]('');
+        }
+
+        function verifyAccess(event) {
+            event.preventDefault();
+            const accessCode = document.getElementById('accessCode').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (accessCode === _secretCode) {
+                // Guardar acceso y redirigir
+                localStorage.setItem('adminAccess', btoa(_0xf4c3(_secretCode)));
+                window.location.href = 'admin.html';
+            } else {
+                // Mostrar error
+                errorMessage.classList.add('active');
+                document.getElementById('accessCode').value = '';
+                setTimeout(() => {
+                    errorMessage.classList.remove('active');
+                }, 3000);
+            }
+        }
+
+        // Toggle sidebar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                toggleBtn.classList.toggle('active');
+                mainContent.classList.toggle('shifted');
+            });
+
+            // Verificar si ya hay acceso
+            const savedAccess = localStorage.getItem('adminAccess');
+            if (savedAccess && savedAccess === btoa(_0xf4c3(_secretCode))) {
+                window.location.href = 'admin.html';
+            }
+        });
+    </script>
+</body>
+</html> 

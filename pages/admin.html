@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración - GHUB Launcher</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sections-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-item:last-child {
+            border-bottom: none;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .games-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .game-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .game-item:last-child {
+            border-bottom: none;
+        }
+
+        .game-image-preview {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .game-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .access-denied {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: #dc3545;
+            font-size: 1.2rem;
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+        }
+
+        .access-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .access-form input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .access-form button {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .access-form button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/logo2.png" alt="GHUB Launcher Logo">
+            <h3>GHUB Launcher</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="../index.html"><i class="fas fa-home"></i> Inicio</a>
+            <a href="../index.html#caracteristicas"><i class="fas fa-star"></i> Características</a>
+            <a href="../index.html#descarga"><i class="fas fa-download"></i> Descarga</a>
+            <a href="games.html"><i class="fas fa-gamepad"></i> Juegos</a>
+            <a href="verify.html" class="active"><i class="fas fa-shield-alt"></i> Administración</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../assets/logo2.png" alt="GHUB Launcher Logo" class="logo-img">
+            </div>
+        </nav>
+
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">Panel de Administración</h1>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Usuarios Totales</h3>
+                    <p>1,234</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Descargas Hoy</h3>
+                    <p>56</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Juegos Activos</h3>
+                    <p>12</p>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <div class="action-card" data-action="add-game">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Agregar Juego</h3>
+                    <p>Añade un nuevo juego a la plataforma</p>
+                </div>
+                <div class="action-card" data-action="manage-users">
+                    <i class="fas fa-users"></i>
+                    <h3>Gestionar Usuarios</h3>
+                    <p>Administra los usuarios de la plataforma</p>
+                </div>
+                <div class="action-card" data-action="settings">
+                    <i class="fas fa-cog"></i>
+                    <h3>Configuración</h3>
+                    <p>Configura los ajustes del sistema</p>
+                </div>
+            </div>
+
+            <div class="admin-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los juegos se cargarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para añadir/editar juegos -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Añadir Juego</h2>
+            <form id="gameForm" onsubmit="saveGame(event)">
+                <div class="form-group">
+                    <label for="gameTitle">Título</label>
+                    <input type="text" id="gameTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="gameDescription">Descripción</label>
+                    <textarea id="gameDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="gameImage">URL de la imagen</label>
+                    <input type="text" id="gameImage" required>
+                </div>
+                <div class="form-group">
+                    <label for="gameSize">Tamaño</label>
+                    <input type="text" id="gameSize" required>
+                </div>
+                <div class="form-group">
+                    <label for="gamePlayLink">Enlace para jugar</label>
+                    <input type="text" id="gamePlayLink" required>
+                </div>
+                <div class="form-group">
+                    <label for="gameStatus">Estado</label>
+                    <select id="gameStatus" required>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" onclick="closeGameModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem('adminAccess');
+            window.location.href = 'verify.html';
+        }
+    </script>
+</body>
+</html> 

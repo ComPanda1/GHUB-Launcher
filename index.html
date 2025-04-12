@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHUB Launcher</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="toggle-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/logo2.png" alt="GHUB Launcher Logo">
+            <h3>GHUB Launcher</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#caracteristicas"><i class="fas fa-star"></i> Características</a>
+            <a href="#descarga"><i class="fas fa-download"></i> Descarga</a>
+            <!-- <a href="pages/games.html"><i class="fas fa-gamepad"></i> Juegos</a>
+            <a href="pages/verify.html"><i class="fas fa-shield-alt"></i> Administración</a> -->
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="assets/logo2.png" alt="GHUB Launcher Logo" class="logo-img">
+            </div>
+        </nav>
+
+        <header class="hero">
+            <div class="hero-content">
+                <h1>Bienvenido a GHUB Launcher</h1>
+                <p>Tu terminal de comandos personalizada</p>
+                <a href="#descarga" class="cta-button">Descargar</a>
+            </div>
+            <div class="hero-image">
+                <div class="cmd-window">
+                    <div class="cmd-header">
+                        <div class="cmd-title">GHUB Terminal</div>
+                        <div class="cmd-controls">
+                            <span class="cmd-control"></span>
+                            <span class="cmd-control"></span>
+                            <span class="cmd-control"></span>
+                        </div>
+                    </div>
+                    <div class="cmd-body">
+                        <div class="cmd-line">
+                            <span class="cmd-prompt">C:\Users\GHUB></span>
+                            <span class="cmd-text typing">Iniciando sistema...</span>
+                        </div>
+                        <div class="cmd-line">
+                            <span class="cmd-prompt">C:\Users\GHUB></span>
+                            <span class="cmd-text typing">Cargando módulos...</span>
+                        </div>
+                        <div class="cmd-line">
+                            <span class="cmd-prompt">C:\Users\GHUB></span>
+                            <span class="cmd-text typing">Sistema listo!</span>
+                        </div>
+                        <div class="cmd-line active">
+                            <span class="cmd-prompt">C:\Users\GHUB></span>
+                            <span class="cmd-cursor">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="caracteristicas" class="features">
+            <h2>Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Inicio Rápido</h3>
+                    <p>Accede a tus aplicaciones favoritas en segundos</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>Personalizable</h3>
+                    <p>Adapta el launcher a tu estilo</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Seguro</h3>
+                    <p>Protección avanzada para tus datos</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="descarga" class="download">
+            <h2>Descarga GHUB</h2>
+            <div class="download-options">
+                <a href="data/GHUB Launcher.exe" download class="download-button windows">
+                    <i class="fab fa-windows"></i>
+                    Descargar para Windows
+                </a>
+            </div>
+            <div class="system-requirements">
+                <h3>Requisitos del Sistema</h3>
+                <ul>
+                    <li><i class="fab fa-windows"></i> Windows 10 o superior</li>
+                    <li><i class="fas fa-microchip"></i> Procesador de 64 bits</li>
+                    <li><i class="fas fa-memory"></i> 4 GB de RAM mínimo</li>
+                    <li><i class="fas fa-hdd"></i> 500 MB de espacio libre</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GHUB Launcher</h4>
+                    <p>Tu launcher de confianza</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <a href="#inicio">Inicio</a>
+                    <a href="#caracteristicas">Características</a>
+                    <a href="#descarga">Descarga</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="https://discord.gg/P39pyj59tn" target="_blank" class="discord-link">
+                            <i class="fab fa-discord"></i>
+                            Únete a nuestro Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GHUB Launcher. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                toggleBtn.classList.toggle('active');
+                mainContent.classList.toggle('shifted');
+            });
+        });
+    </script>
+</body>
+</html> 
